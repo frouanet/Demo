@@ -1,7 +1,9 @@
 pipeline {
     agent any 
-    tool name: 'Maven', type: 'maven'
-    tool name: 'JDK17', type: 'jdk'
+    tools {
+        maven 'Maven'
+        jdk 'JDK17'
+    } 
 
     stages {
         stage('Build and test') {
