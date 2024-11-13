@@ -1,6 +1,7 @@
 pipeline {
-   agent any 
-
+    agent any 
+    tool name: 'Maven', type: 'maven'
+    tool name: 'JDK17', type: 'jdk'
 
     stages {
         stage('Build and test') {
@@ -20,11 +21,12 @@ pipeline {
                 }  
             } 
         }
-        stage('Analyse qualité et vulnérabilités') {
+        stage('Analyse dependance') {
             parallel {
-                stage('Vulnérabilités') {
+                stage('Dependances') {
                     steps {
                         echo 'Tests de Vulnérabilités OWASP'
+                        sh 'mvn -DskipTests verify'
                     }
                     
                 }
