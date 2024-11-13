@@ -3,11 +3,22 @@ pipeline {
 
 
     stages {
-        stage('Compile et tests') {
+        stage('Build and test') {
             steps {
-                echo 'Unit test et packaging'
+                echo 'Build'
+                sh 'mvn -Dmaven.test.failure.ignore clean package'
             }
-             
+            post {
+                always { 
+                    junit '**/target/surefire-reports/TEST-*.xml'
+                }
+                success {    
+                    archiveArtifacts '**/target/*.jar'
+                }
+                failure {
+                    mail bcc: '', body: 'Ca ne fonctionne pas', cc: '', from: '', replyTo: '', subject: 'package failed', to: 'stageojen@plbformation.com'
+                }  
+            } 
         }
         stage('Analyse qualité et vulnérabilités') {
             parallel {
