@@ -28,13 +28,15 @@ pipeline {
         stage('Analyse dependance') {            
             parallel {
                 stage('Dependances') {
+                    agent any
                     steps {
                         echo '=========== Analyse des dépendances du projet'
                         sh 'mvn -DskipTests verify'
                     }                 
                 }
-                /*
+                
                 stage('Analyse Sonar') {
+                    agent any
                     environment {
                         SONAR_TOKEN = credentials('Sonarqube')
                     }
@@ -43,7 +45,7 @@ pipeline {
                         sh 'mvn -Dsonar.token=${SONAR_TOKEN} clean integration-test sonar:sonar'
                     }  
                 }
-                */
+                
             }      
         }  
         stage('Deploy') {
