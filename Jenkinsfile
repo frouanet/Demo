@@ -49,9 +49,9 @@ pipeline {
             }      
         }  
         stage('Deploy') {
-            when {
-                branch 'master' 
-                beforeInput 
+            when { 
+                beforeInput true
+                branch 'master'
             } 
             input {
                 message 'Dans quel Data Center, voulez-vous déployer l’artefact ?'
