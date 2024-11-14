@@ -3,19 +3,24 @@ pipeline {
     tools {
         maven 'Maven'
         jdk 'JDK17'
-    } 
+    }
+    environment {
+        SONAR_TOKEN = credentials('Sonarqube')
+    }
 
     stages {
         stage('Build and test') {
             steps {
-                echo 'Build'
+                echo '============  Build'
                 sh 'mvn -Dmaven.test.failure.ignore clean package'
             }
             post {
                 always { 
+                    echo '============  Publish'
                     junit '**/target/surefire-reports/TEST-*.xml'
                 }
-                success {    
+                success {  
+                    echo '============  Archive'  
                     archiveArtifacts '**/target/*.jar'
                 }
                 failure {
@@ -23,21 +28,18 @@ pipeline {
                 }  
             } 
         }
-        stage('Analyse dependance') {
-            environment {
-                SONAR_TOKEN = credentials('Sonarqube')
-            }
+        stage('Analyse dependance') {            
             parallel {
                 stage('Dependances') {
                     steps {
-                        echo 'Analyse des dépendances du projet'
+                        echo '=========== Analyse des dépendances du projet'
                         sh 'mvn -DskipTests verify'
                     }                 
                 }
                 stage('Analyse Sonar') {
                     steps {
-                    echo 'Analyse sonar'
-                    sh 'mvn -Dsonar.token=${SONAR_TOKEN} clean integration-test sonar:sonar'
+                        echo '============ Analyse sonar'
+                        sh 'mvn -Dsonar.token=${SONAR_TOKEN} clean integration-test sonar:sonar'
                     }  
                 }
             }      
@@ -51,7 +53,7 @@ pipeline {
                 }
             }
             steps {
-                echo "Déploiement intégration ${DC}"
+                echo "============ Déploiement intégration ${DC}"
                 
             }
         }
