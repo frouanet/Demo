@@ -1,5 +1,5 @@
 pipeline {
-    agent any 
+    agent none 
     tools {
         maven 'Maven'
         jdk 'JDK17'
@@ -7,6 +7,7 @@ pipeline {
 
     stages {
         stage('Build and test') {
+            agent any
             steps {
                 echo '============  Build'
                 sh 'mvn -Dmaven.test.failure.ignore clean package'
@@ -49,8 +50,10 @@ pipeline {
             }      
         }  
         stage('Deploy') {
+            agent any
             when { 
                 beforeInput true
+                beforeAgent true
                 branch 'master'
             } 
             input {
