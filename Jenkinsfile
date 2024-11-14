@@ -79,8 +79,9 @@ pipeline {
         stage('May I deploy'){
             agent none
             steps{ 
+                echo "============ Get aggreement"
                 script {
-                    input {
+                    deployer = input {
                         message 'Pret pour deployer ?'
                         ok "deployer"
                     }
