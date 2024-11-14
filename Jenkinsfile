@@ -98,7 +98,7 @@ pipeline {
 
 def GetMyDC(){
     def props = readJSON file: './parameters.json'
-    def mybuildir = prop['builddir'] 
+    def mybuildir = props['builddir'] 
     def mydcs = props['datacenters']
     return ['dcs' : mydcs, 'bdir' : mybuildir] 
 }
