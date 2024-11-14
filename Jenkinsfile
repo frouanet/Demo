@@ -80,10 +80,12 @@ pipeline {
             steps{
                 echo "Read and deploy"
                 script{
+                    sh 'pwd'
                     def myjsdata = GetMyDC()
-                    def mydcs = myjsdata['mydcs']
+                    def mydcs = myjsdata['bdir']
+                    def mydb = myjsdata['dcs']
                     for (int i = 0; i < mydcs.size(); ++i) {
-                        dir("/home/plb/builds/${mydcs[i]}") {
+                        dir("${mydb} /${mydcs[i]}") {
                             unstash 'build_result'
                         }
                     } 
