@@ -1,4 +1,5 @@
 def props = readJSON file: 'parameters.json'
+
 pipeline {
     agent none 
     tools {
@@ -72,6 +73,18 @@ pipeline {
                 } 
             }
         }
+        stage('Deploy 2'){
+            agent any
+            steps{
+                echo "Read and deploy"
+                
+
+            }    
+        } 
     }
+}
+
+def GetMyDC(){
+    def props = readJSON file: 'parameters.json'
 }
 
