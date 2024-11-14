@@ -1,4 +1,4 @@
 {
+    "builddir": "/home/plb/builds",
     "datacenters":["Paris", "Lille", "Lyon", "Marseille"]  
-
 }
