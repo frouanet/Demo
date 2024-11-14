@@ -49,7 +49,10 @@ pipeline {
             }      
         }  
         stage('Deploy') {
-            when{branch 'master'} 
+            when {
+                branch 'master' 
+                beforeInput 
+            } 
             input {
                 message 'Dans quel Data Center, voulez-vous déployer l’artefact ?'
                 parameters {
