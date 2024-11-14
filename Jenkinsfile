@@ -80,7 +80,8 @@ pipeline {
             steps{
                 echo "Read and deploy"
                 script{
-                    def mydcs = GetMyDC()
+                    def myjsdata = GetMyDC()
+                    def mydcs = myjsdata['mydcs']
                     for (int i = 0; i < mydcs.size(); ++i) {
                         dir("/home/plb/builds/${mydcs[i]}") {
                             unstash 'build_result'
@@ -94,8 +95,9 @@ pipeline {
 }
 
 def GetMyDC(){
-    def props = readJSON file: '/home/plb/MyWork/Mygit/multi-module/parameters.json'
+    def props = readJSON file: './parameters.json'
+    def mybuildir = prop['builddir'] 
     def mydcs = props['datacenters']
-    return mydcs
+    return ['dcs' : mydcs, 'bdir' : mybuildir] 
 }
 
