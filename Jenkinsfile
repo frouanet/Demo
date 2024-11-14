@@ -78,14 +78,15 @@ pipeline {
         stage('Deploy 2'){
             agent any
             steps{
-                echo "Read and deploy"
+                echo "============ Read and deploy"
                 script{
                     sh 'pwd'
                     def myjsdata = GetMyDC()
-                    def mydcs = myjsdata['bdir']
-                    def mydb = myjsdata['dcs']
+                    def mybd = myjsdata['bdir']
+                    def mydcs = myjsdata['dcs']
                     for (int i = 0; i < mydcs.size(); ++i) {
-                        dir("${mydb} /${mydcs[i]}") {
+                        sh "echo =============== building ${mydcs[i]} to ${mydb}"
+                        dir("${mydb}/${mydcs[i]}") {
                             unstash 'build_result'
                         }
                     } 
