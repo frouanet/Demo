@@ -78,7 +78,10 @@ pipeline {
             agent any
             steps{
                 echo "Read and deploy"
-                GetMyDC()
+                script{
+                    GetMyDC()
+                }  
+                
             }    
         } 
     }
@@ -86,7 +89,7 @@ pipeline {
 
 def GetMyDC(){
     def props = readJSON file: 'parameters.json'
-    def mydcs = prop[datacenters]
+    def mydcs = prop['datacenters']
     return mydcs
 }
 
