@@ -158,7 +158,7 @@ def checkSonarQualityGate(){
 
     echo qualitygate.toString()
     // when debug
-    if (level.equals("debug")){
+    if (level == 'debug'){
         qualitygate['projectStatus']['status'] = "ERROR"
     } 
     
