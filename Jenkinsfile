@@ -1,8 +1,10 @@
+def props = readJSON file: 'parameters.json'
 pipeline {
     agent none 
     tools {
         maven 'Maven'
         jdk 'JDK17'
+
     }
 
     stages {
