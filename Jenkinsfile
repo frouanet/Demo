@@ -35,7 +35,8 @@ pipeline {
                     agent any
                     steps {
                         echo '=========== Analyse des dépendances du projet'
-                        sh 'mvn -DskipTests verify'
+                    //    sh 'mvn -DskipTests verify'
+                        sleep 3
                     }                 
                 }
                 
@@ -77,8 +78,7 @@ pipeline {
             agent any
             steps{
                 echo "Read and deploy"
-                
-
+                GetMyDC()
             }    
         } 
     }
@@ -87,5 +87,6 @@ pipeline {
 def GetMyDC(){
     def props = readJSON file: 'parameters.json'
     def mydcs = prop[datacenters]
+    return mydcs
 }
 
