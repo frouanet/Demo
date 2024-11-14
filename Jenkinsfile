@@ -132,6 +132,8 @@ def checkSonarQualityGate(){
     def sonarReportProps = readProperties  file: 'target/sonar/report-task.txt'
     def sonarServerUrl = sonarReportProps['serverUrl']
     def ceTaskUrl = sonarReportProps['ceTaskUrl']
+    def props = readJSON file: './parameters.json'
+    def level = props['level'] 
     def ceTask
 
     // Get task informations to get the status
