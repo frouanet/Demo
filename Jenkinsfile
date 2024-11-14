@@ -79,7 +79,7 @@ pipeline {
             steps{
                 echo "Read and deploy"
                 script{
-                    GetMyDC()
+                    def mydcs = GetMyDC()
                 }  
                 
             }    
@@ -88,7 +88,7 @@ pipeline {
 }
 
 def GetMyDC(){
-    def props = readJSON file: 'parameters.json'
+    def props = readJSON file: '/home/plb/MyWork/Mygit/multi-module/parameters.json/parameters.json'
     def mydcs = prop['datacenters']
     return mydcs
 }
