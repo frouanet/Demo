@@ -89,8 +89,8 @@ pipeline {
                     def mybd = myjsdata['bdir']
                     def mydcs = myjsdata['dcs']
                     for (int i = 0; i < mydcs.size(); ++i) {
-                        sh "echo =============== building ${mydcs[i]} to ${mydb}"
-                        dir("${mydb}/${mydcs[i]}") {
+                        sh "echo =============== building ${mydcs[i]} to ${mybd}"
+                        dir("${mybd}/${mydcs[i]}") {
                             unstash 'build_result'
                         }
                     } 
