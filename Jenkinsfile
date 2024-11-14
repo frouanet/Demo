@@ -81,7 +81,7 @@ pipeline {
                 script{
                     def mydcs = GetMyDC()
                     for (int i = 0; i < mydcs.size(); ++i) {
-                        dir("/home/plb/${DC}") {
+                        dir("/home/plb/${mydcs[i]}") {
                             unstash 'build_result'
                         }
                     } 
