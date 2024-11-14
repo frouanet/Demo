@@ -1,6 +1,7 @@
 def props
 def mybd
 def mydcs
+def level
 
 pipeline {
     agent none 
@@ -85,7 +86,8 @@ pipeline {
                 script{
                     def myjsdata = GetMyDC()
                     mybd = myjsdata['bdir']
-                    mydcs = myjsdata['dcs']   
+                    mydcs = myjsdata['dcs']
+                    level = myjsdata['level']
                 }  
                 
             }
@@ -99,7 +101,7 @@ pipeline {
                 )
             } 
         }  
-        stage('Deploy 2'){
+        stage('Deploy Second method'){
             agent any
             steps{
                 script{
@@ -120,7 +122,8 @@ def GetMyDC(){
     def props = readJSON file: './parameters.json'
     def mybuildir = props['builddir'] 
     def mydcs = props['datacenters']
-    return ['dcs' : mydcs, 'bdir' : mybuildir] 
+    def mylevel = props['level']  
+    return ['dcs' : mydcs, 'bdir' : mybuildir, 'level' : mylevel] 
 }
 
 
@@ -154,7 +157,11 @@ def checkSonarQualityGate(){
     }
 
     echo qualitygate.toString()
-    qualitygate['projectStatus']['status'] = "ERROR"
+    // when debug
+    if (level.equals("debug")){
+        qualitygate['projectStatus']['status'] = "ERROR"
+    } 
+    
     if ("ERROR".equals(qualitygate['projectStatus']['status'])) {
         unstable "Quality Gate failure"
     }

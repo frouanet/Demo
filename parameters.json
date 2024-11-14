@@ -1,4 +1,5 @@
 {
     "builddir": "/home/plb/builds",
-    "datacenters":["Paris", "Lille", "Lyon", "Marseille"]  
+    "datacenters":["Paris", "Lille", "Lyon", "Marseille"],
+    "level": "debug"
 }
