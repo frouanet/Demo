@@ -24,28 +24,34 @@ pipeline {
             } 
         }
         stage('Analyse dependance') {
+            environment {
+                SONAR_TOKEN = credentials('Sonarqube')
+            }
             parallel {
                 stage('Dependances') {
                     steps {
                         echo 'Tests de Vulnérabilités OWASP'
                         sh 'mvn -DskipTests verify'
-                    }
-                    
+                    }                 
                 }
-                 stage('Analyse Sonar') {
-                     steps {
-                        echo 'Analyse sonar'
-                     }
-                    
+                stage('Analyse Sonar') {
+                    steps {
+                    echo 'Analyse sonar'
+                    sh 'mvn -Dsonar.token=${SONAR_TOKEN} clean integration-test sonar:sonar'
+                    }  
                 }
-            }
-            
+            }      
         }
             
-        stage('Déploiement intégration') {
-
+        stage('Last question') {
+            input {
+                message 'Dans quel Data Center, voulez-vous déployer l’artefact ?'
+                parameters {
+                    choice choices: ['Paris ', 'Lille ', 'Lyon'], name: 'DC'
+                }
+            }
             steps {
-                echo "Déploiement intégration"
+                echo "Déploiement intégration ${DC}"
                 
             }
         }
