@@ -38,7 +38,7 @@ pipeline {
                         SONAR_TOKEN = credentials('Sonarqube')
                     }
                     steps {
-                        echo '============ Analyse sonar'
+                        echo '=========== Analyse sonar'
                         sh 'mvn -Dsonar.token=${SONAR_TOKEN} clean integration-test sonar:sonar'
                     }  
                 }
