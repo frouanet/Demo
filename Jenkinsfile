@@ -23,6 +23,7 @@ pipeline {
                 success {  
                     echo '============  Archive'  
                     archiveArtifacts '**/target/*.jar'
+                    stash name: 'build_result', includes: '**/target/*.jar'
                 }
                 failure {
                     mail bcc: '', body: 'Ca ne fonctionne pas', cc: '', from: '', replyTo: '', subject: 'package failed', to: 'stageojen@plbformation.com'
@@ -81,7 +82,7 @@ pipeline {
                 script{
                     def mydcs = GetMyDC()
                     for (int i = 0; i < mydcs.size(); ++i) {
-                        dir("/home/plb/${mydcs[i]}") {
+                        dir("/home/plb/builds/${mydcs[i]}") {
                             unstash 'build_result'
                         }
                     } 
