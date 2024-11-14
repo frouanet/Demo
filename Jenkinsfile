@@ -80,7 +80,7 @@ pipeline {
             agent none
             steps{ 
                 script {
-                    deployer = input {
+                    input {
                         message 'Pret pour deployer ?'
                         ok "deployer"
                     }
