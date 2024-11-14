@@ -30,7 +30,7 @@ pipeline {
             parallel {
                 stage('Dependances') {
                     steps {
-                        echo 'Tests de Vulnérabilités OWASP'
+                        echo 'Analyse des dépendances du projet'
                         sh 'mvn -DskipTests verify'
                     }                 
                 }
