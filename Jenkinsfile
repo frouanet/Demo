@@ -80,6 +80,11 @@ pipeline {
                 echo "Read and deploy"
                 script{
                     def mydcs = GetMyDC()
+                    mydcs.foreach{ 
+                        DC ->  dir("/home/plb/${DC}") {
+                        unstash 'build_result'
+                        }
+                    } 
                 }  
                 
             }    
@@ -89,7 +94,7 @@ pipeline {
 
 def GetMyDC(){
     def props = readJSON file: '/home/plb/MyWork/Mygit/multi-module/parameters.json'
-    def mydcs = prop['datacenters']
+    def mydcs = props['datacenters']
     return mydcs
 }
 
