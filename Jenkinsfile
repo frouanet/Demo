@@ -1,5 +1,6 @@
 def props
-def deployer
+def mybd
+def mydcs
 
 pipeline {
     agent none 
@@ -70,43 +71,46 @@ pipeline {
             }
             steps {
                 echo "============ Déploiement intégration ${DC}"
-                stash name: 'build_result', includes: '**/target/*.jar'
                 dir("/home/plb/${DC}") {
                     unstash 'build_result'
                 } 
             }
         }
+        
+        stage('Read parms'){
+            agent any       
+            steps{
+                echo "============ Read "
+                script{
+                    def myjsdata = GetMyDC()
+                    mybd = myjsdata['bdir']
+                    mydcs = myjsdata['dcs']   
+                }  
+                
+            }
+        }
         stage('May I deploy'){
             agent none
             steps{ 
-                echo "============ Get aggreement"
-                script {
-                    deployer = input {
-                        message 'Pret pour deployer ?'
-                        ok "deployer"
-                    }
-                }
+                input (
+                    message: 'Pret pour deployer ?',
+                    ok: 'deployer'
+                )
             } 
-        } 
+        }  
         stage('Deploy 2'){
             agent any
-            
             steps{
-                echo "============ Read and deploy"
                 script{
-                    sh 'pwd'
-                    def myjsdata = GetMyDC()
-                    def mybd = myjsdata['bdir']
-                    def mydcs = myjsdata['dcs']
                     for (int i = 0; i < mydcs.size(); ++i) {
                         sh "echo =============== building ${mydcs[i]} to ${mybd}"
                         dir("${mybd}/${mydcs[i]}") {
                             unstash 'build_result'
                         }
                     } 
-                }  
-                
-            }    
+                } 
+
+            }  
         } 
     }
 }
