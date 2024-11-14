@@ -1,4 +1,4 @@
-def props = readJSON file: 'parameters.json'
+def props
 
 pipeline {
     agent none 
@@ -86,5 +86,6 @@ pipeline {
 
 def GetMyDC(){
     def props = readJSON file: 'parameters.json'
+    def mydcs = prop[datacenters]
 }
 
