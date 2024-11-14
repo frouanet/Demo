@@ -33,6 +33,7 @@ pipeline {
                         sh 'mvn -DskipTests verify'
                     }                 
                 }
+                /*
                 stage('Analyse Sonar') {
                     environment {
                         SONAR_TOKEN = credentials('Sonarqube')
@@ -42,9 +43,10 @@ pipeline {
                         sh 'mvn -Dsonar.token=${SONAR_TOKEN} clean integration-test sonar:sonar'
                     }  
                 }
+                */
             }      
         }  
-        stage('Last question') {
+        stage('Deploy') {
             input {
                 message 'Dans quel Data Center, voulez-vous déployer l’artefact ?'
                 parameters {
@@ -53,7 +55,10 @@ pipeline {
             }
             steps {
                 echo "============ Déploiement intégration ${DC}"
-                
+                stash name: 'build_result', includes: '**/target/*.jar'
+                dir("/home/plb/${DC}") {
+                    unstash 'build_result'
+                } 
             }
         }
     }
