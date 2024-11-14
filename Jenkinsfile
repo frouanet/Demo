@@ -80,9 +80,9 @@ pipeline {
                 echo "Read and deploy"
                 script{
                     def mydcs = GetMyDC()
-                    mydcs.each{ 
-                        DC ->  dir("/home/plb/${DC}") {
-                        unstash 'build_result'
+                    for (int i = 0; i < mydcs.size(); ++i) {
+                        dir("/home/plb/${DC}") {
+                            unstash 'build_result'
                         }
                     } 
                 }  
