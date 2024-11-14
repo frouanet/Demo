@@ -1,4 +1,5 @@
 def props
+def deployer
 
 pipeline {
     agent none 
@@ -75,12 +76,20 @@ pipeline {
                 } 
             }
         }
+        stage('May I deploy'){
+            agent none
+            steps{ 
+                script {
+                    def deployer = input {
+                        message 'Pret pour deployer ?'
+                        ok "deployer"
+                    }
+                }
+            } 
+        } 
         stage('Deploy 2'){
             agent any
-            input {
-                message 'Pret pour deployer ?'
-                ok "deployer"
-            }
+            
             steps{
                 echo "============ Read and deploy"
                 script{
