@@ -4,9 +4,6 @@ pipeline {
         maven 'Maven'
         jdk 'JDK17'
     }
-    environment {
-        SONAR_TOKEN = credentials('Sonarqube')
-    }
 
     stages {
         stage('Build and test') {
@@ -37,14 +34,16 @@ pipeline {
                     }                 
                 }
                 stage('Analyse Sonar') {
+                    environment {
+                        SONAR_TOKEN = credentials('Sonarqube')
+                    }
                     steps {
                         echo '============ Analyse sonar'
                         sh 'mvn -Dsonar.token=${SONAR_TOKEN} clean integration-test sonar:sonar'
                     }  
                 }
             }      
-        }
-            
+        }  
         stage('Last question') {
             input {
                 message 'Dans quel Data Center, voulez-vous déployer l’artefact ?'
@@ -57,8 +56,6 @@ pipeline {
                 
             }
         }
-
-     }
-    
+    }
 }
 
