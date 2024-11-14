@@ -93,7 +93,7 @@ pipeline {
             agent none
             steps{ 
                 input (
-                    message: 'Pret pour deployer ?',
+                    message: "Pret pour deployer sur ${mydcs} ?",
                     ok: 'deployer'
                 )
             } 
