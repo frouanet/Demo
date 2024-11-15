@@ -4,12 +4,7 @@ def mydcs
 def level
 
 pipeline {
-
-    agent {
-        docker {
-        image 'openjdk:17-alpine'
-        }
-    }
+    agent none
 
     tools {
         maven 'Maven'
@@ -19,7 +14,11 @@ pipeline {
 
     stages {
         stage('Build and test') {
-            agent any
+            agent {
+                docker {
+                image 'openjdk:17-alpine'
+                }
+            }
             steps {
                 echo '============  Build'
                 sh 'mvn -Dmaven.test.failure.ignore clean package'
