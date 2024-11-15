@@ -6,17 +6,12 @@ def level
 pipeline {
     agent none
 
-    tools {
-        maven 'Maven'
-        jdk 'JDK17'
-
-    }
-
     stages {
         stage('Build and test') {
             agent {
                 docker {
                 image 'maven:3.8.5-openjdk-17'
+                args 'export JAVA_HOME=/usr/lib/jvm/java-1.17.0-openjdk-amd64'
                 }
             }
             steps {
@@ -40,17 +35,28 @@ pipeline {
         }
         stage('Analyse dependance') {            
             parallel {
+                
                 stage('Dependances') {
                     agent any
+                    tools {
+                        maven 'Maven'
+                        jdk 'JDK17'
+
+                    }
                     steps {
                         echo '=========== Analyse des dépendances du projet'
-                    //    sh 'mvn -DskipTests verify'
+                        sh 'mvn -DskipTests verify'
                         sleep 3
                     }                 
                 }
                 
                 stage('Analyse Sonar') {
                     agent any
+                    tools {
+                        maven 'Maven'
+                        jdk 'JDK17'
+
+                    }
                     environment {
                         SONAR_TOKEN = credentials('Sonarqube')
                     }
