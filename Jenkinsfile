@@ -4,7 +4,13 @@ def mydcs
 def level
 
 pipeline {
-    agent none 
+
+    agent {
+        docker {
+        image 'openjdk:17-alpine'
+        }
+    }
+
     tools {
         maven 'Maven'
         jdk 'JDK17'
