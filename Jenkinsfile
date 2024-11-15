@@ -11,7 +11,7 @@ pipeline {
             agent {
                 docker {
                     image 'maven:3.8.5-openjdk-17'
-                    args '- $HOME/.m2:/root/.m2'
+                    args '-v $HOME/.m2:/root/.m2'
                 }
             }
             steps {
