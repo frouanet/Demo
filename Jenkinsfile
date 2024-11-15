@@ -11,7 +11,6 @@ pipeline {
             agent {
                 docker {
                 image 'maven:3.8.5-openjdk-17'
-                args 'export JAVA_HOME=/usr/lib/jvm/java-1.17.0-openjdk-amd64'
                 }
             }
             steps {
