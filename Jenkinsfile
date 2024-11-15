@@ -73,6 +73,7 @@ pipeline {
             agent any 
             steps{
                 script {
+                    unstash 'build_result'
                     def dockerImage = docker.build('frouanetrose/multi-module', '.')
                     docker.withRegistry('https://registry.hub.docker.com',
                     'frouanetrose_docker') {
