@@ -16,7 +16,7 @@ pipeline {
         stage('Build and test') {
             agent {
                 docker {
-                image 'openjdk:17-alpine'
+                image 'maven:3.8.5-openjdk-17'
                 }
             }
             steps {
