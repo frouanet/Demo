@@ -1,4 +1,4 @@
-FROM openjdk:17-alpine
+FROM 3.8.5-openjdk-17
 
 ENV SPRING_OUTPUT_ANSI_ENABLED=ALWAYS \
     JHIPSTER_SLEEP=0 \
