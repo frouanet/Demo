@@ -75,7 +75,7 @@ pipeline {
                 script {
                     def dockerImage = docker.build('frouanetrose/multi-module', '.')
                     docker.withRegistry('https://registry.hub.docker.com',
-                    'frouanetrose') {
+                    'frouanetrose_docker') {
                     dockerImage.push 'latest'
                     }
                 }
