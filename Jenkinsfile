@@ -68,6 +68,18 @@ pipeline {
                 }
                 
             }      
+        } 
+        stage('Push to Docker Hub'){
+            agent any 
+            steps{
+                script {
+                    def dockerImage = docker.build('frouanetrose/multi-module', '.')
+                    docker.withRegistry('https://registry.hub.docker.com',
+                    'frouanetrose') {
+                    dockerImage.push 'latest'
+                    }
+                }
+            } 
         }  
         stage('Deploy') {
             agent any
